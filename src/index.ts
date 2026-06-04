@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 import { Command } from "commander";
+import { assertGitRepo } from "./git.js";
 
 const program = new Command();
 
@@ -16,6 +17,8 @@ program
 		"english",
 	)
 	.action((options) => {
+		assertGitRepo();
+
 		console.log("days:", options.days);
 		console.log("author", options.author);
 		console.log("lang:", options.lang);
