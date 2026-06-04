@@ -41,7 +41,6 @@ program
 		const days = parseInt(options.days);
 		const since = getSinceDate(days);
 		const commits = getCommits(since, options.author);
-		console.log(commits.length);
 
 		const standup = await generateStandup(
 			commits,
