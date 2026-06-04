@@ -1,7 +1,12 @@
 #!/usr/bin/env node
 
 import { Command } from "commander";
-import { assertGitRepo, formaDateForGit, getSinceDate } from "./git.js";
+import {
+	assertGitRepo,
+	formatDateForGit,
+	getCommits,
+	getSinceDate,
+} from "./git.js";
 
 const program = new Command();
 
@@ -21,10 +26,10 @@ program
 
 		const days = parseInt(options.days);
 		const since = getSinceDate(days);
+		const commits = getCommits(since, options.author);
 
-		console.log("since:", formaDateForGit(since));
-		console.log("author", options.author);
-		console.log("lang:", options.lang);
+		console.log(`Found ${commits.length} commits:`);
+		commits.forEach((c) => console.log(c));
 	});
 
 program.parse();
