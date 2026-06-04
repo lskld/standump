@@ -8,6 +8,7 @@ import {
 	getSinceDate,
 } from "./git.js";
 import { getConfig, setConfig, validateConfig } from "./config.js";
+import { generateStandup } from "./ai.js";
 
 const program = new Command();
 program.enablePositionalOptions();
@@ -24,7 +25,7 @@ program
 	)
 	.option("--provider <provider>", "ai provider to use")
 	.option("--model <model>", "model to use")
-	.action((options) => {
+	.action(async (options) => {
 		assertGitRepo();
 
 		const savedConfig = getConfig();
@@ -40,14 +41,16 @@ program
 		const days = parseInt(options.days);
 		const since = getSinceDate(days);
 		const commits = getCommits(since, options.author);
+		console.log(commits.length);
 
-		console.log(
-			`Found ${commits.length} commits since ${formatDateForGit(since)}`,
+		const standup = await generateStandup(
+			commits,
+			resolvedConfig.lang,
+			resolvedConfig.provider,
+			resolvedConfig.model,
 		);
-		console.log("Provider:", resolvedConfig.provider);
-		console.log("Model:", resolvedConfig.model);
-		console.log("Lang:", resolvedConfig.lang);
-		commits.forEach((c) => console.log(c));
+
+		console.log("\n" + standup + "\n");
 	});
 
 program

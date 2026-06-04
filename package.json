@@ -35,7 +35,12 @@
 		"typescript": "^6.0.3"
 	},
 	"dependencies": {
+		"@ai-sdk/anthropic": "^3.0.81",
+		"@ai-sdk/google": "^3.0.80",
+		"@ai-sdk/openai": "^3.0.67",
+		"ai": "^6.0.196",
 		"commander": "^15.0.0",
-		"conf": "^15.1.0"
+		"conf": "^15.1.0",
+		"ollama-ai-provider-v2": "^3.5.1"
 	}
 }
