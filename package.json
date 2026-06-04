@@ -41,6 +41,6 @@
 		"ai": "^6.0.196",
 		"commander": "^15.0.0",
 		"conf": "^15.1.0",
-		"ollama-ai-provider": "^1.2.0"
+		"ollama-ai-provider-v2": "^3.5.1"
 	}
 }
