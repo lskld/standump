@@ -1,14 +1,11 @@
 #!/usr/bin/env node
 
 import { Command } from "commander";
-import {
-	assertGitRepo,
-	formatDateForGit,
-	getCommits,
-	getSinceDate,
-} from "./git.js";
+import { assertGitRepo, getCommits, getSinceDate } from "./git.js";
 import { getConfig, setConfig, validateConfig } from "./config.js";
 import { generateStandup } from "./ai.js";
+import ora from "ora";
+import clipboard from "clipboardy";
 
 const program = new Command();
 program.enablePositionalOptions();
@@ -42,6 +39,8 @@ program
 		const since = getSinceDate(days);
 		const commits = getCommits(since, options.author);
 
+		const spinner = ora("Generating standup...").start();
+
 		const standup = await generateStandup(
 			commits,
 			resolvedConfig.lang,
@@ -49,7 +48,18 @@ program
 			resolvedConfig.model,
 		);
 
+		spinner.succeed("Done! Press 'c' to copy");
 		console.log("\n" + standup + "\n");
+
+		process.stdin.setRawMode(true);
+		process.stdin.resume();
+		process.stdin.once("data", (key) => {
+			if (key.toString() === "c") {
+				clipboard.writeSync(standup);
+				console.log("Copied to clipboard");
+			}
+			process.exit(0);
+		});
 	});
 
 program
