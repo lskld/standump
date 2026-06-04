@@ -15,19 +15,19 @@ const conf = new Conf<StandumpConfig>({
     },
 });
 
+export function setConfig(values: Partial<StandumpConfig>): void {
+	if (values.provider) conf.set("provider", values.provider);
+	if (values.model) conf.set("model", values.model);
+	if (values.lang) conf.set("lang", values.lang);
+	console.log("Config saved to:", conf.path);
+}
+
 export function getConfig(): StandumpConfig {
     return {
         provider: conf.get("provider"),
         model: conf.get("model"),
         lang: conf.get("lang"),
     };
-}
-
-export function setConfig(values: Partial<StandumpConfig>): void {
-    if (values.provider) conf.set("provider", values.provider);
-    if (values.model) conf.set("models", values.model);
-    if (values.lang) conf.set("lang", values.lang);
-    console.log("Config saved.");
 }
 
 export function validateConfig(config: StandumpConfig): void {

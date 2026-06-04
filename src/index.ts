@@ -7,8 +7,10 @@ import {
 	getCommits,
 	getSinceDate,
 } from "./git.js";
+import { getConfig, setConfig, validateConfig } from "./config.js";
 
 const program = new Command();
+program.enablePositionalOptions();
 
 program
 	.name("standump")
@@ -19,17 +21,47 @@ program
 	.option(
 		"--lang <language>",
 		"output language (english, swedish, spanish, german, french)",
-		"english",
 	)
+	.option("--provider <provider>", "ai provider to use")
+	.option("--model <model>", "model to use")
 	.action((options) => {
 		assertGitRepo();
+
+		const savedConfig = getConfig();
+
+		const resolvedConfig = {
+			provider: options.provider ?? savedConfig.provider,
+			model: options.model ?? savedConfig.model,
+			lang: options.lang ?? savedConfig.lang,
+		};
+
+		validateConfig(resolvedConfig);
 
 		const days = parseInt(options.days);
 		const since = getSinceDate(days);
 		const commits = getCommits(since, options.author);
 
-		console.log(`Found ${commits.length} commits:`);
+		console.log(
+			`Found ${commits.length} commits since ${formatDateForGit(since)}`,
+		);
+		console.log("Provider:", resolvedConfig.provider);
+		console.log("Model:", resolvedConfig.model);
+		console.log("Lang:", resolvedConfig.lang);
 		commits.forEach((c) => console.log(c));
+	});
+
+program
+	.command("config")
+	.description("Configure standump defaults")
+	.option("--provider <provider>", "ai provider to use")
+	.option("--model <model>", "model to use")
+	.option("--lang <language>", "output language")
+	.action((options) => {
+		setConfig({
+			provider: options.provider,
+			model: options.model,
+			lang: options.lang,
+		});
 	});
 
 program.parse();
