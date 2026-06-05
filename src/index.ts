@@ -13,13 +13,10 @@ program.enablePositionalOptions();
 program
 	.name("standump")
 	.description("Dumps your git history into a standup so you don't have to")
-	.version("1.0.0")
+	.version("1.0.9")
 	.option("--days <number>", "how many days back to look", "1")
 	.option("--author <name>", "filter by git author")
-	.option(
-		"--lang <language>",
-		"output language (english, swedish, spanish, german, french)",
-	)
+	.option("--lang <language>", "output language")
 	.option("--provider <provider>", "ai provider to use")
 	.option("--model <model>", "model to use")
 	.action(async (options) => {
@@ -48,7 +45,7 @@ program
 			resolvedConfig.model,
 		);
 
-		spinner.succeed("Done! Press 'c' to copy");
+		spinner.succeed(" Done! Press 'c' to copy");
 		console.log("\n" + standup + "\n");
 
 		process.stdin.setRawMode(true);
