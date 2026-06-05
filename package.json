@@ -1,6 +1,6 @@
 {
 	"name": "standump",
-	"version": "1.0.4",
+	"version": "1.0.5",
 	"description": "Dumps your git history into a standup so you don't have to",
 	"type": "module",
 	"bin": {
