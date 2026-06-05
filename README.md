@@ -2,6 +2,8 @@
 
 standump reads your git history and uses AI to generate a daily standup, so you don't have to.
 
+<img width="1408" height="502" alt="standump" src="https://github.com/user-attachments/assets/a9628979-c32b-4f52-85cd-6148c46c24ac" />
+
 ## Installation
 
 ```bash
