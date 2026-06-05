@@ -4,7 +4,7 @@
 	"description": "Dumps your git history into a standup so you don't have to",
 	"type": "module",
 	"bin": {
-		"standump": "./dist/index.js"
+		"standump": "dist/index.js"
 	},
 	"scripts": {
 		"build": "tsc",
