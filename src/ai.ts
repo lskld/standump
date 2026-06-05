@@ -36,14 +36,25 @@ export async function generateStandup(
     const llmModel = getModel(provider, model);
 
     const { text } = await generateText({
-        model: llmModel,
-        prompt: `You are a helpful assistant that generates daily standup updates from git commit history.
-        Based on the following git commits, write a concise standup update in ${lang}.
-        Focus on what was accomplished, group related work together, and write it in first person.
-        Keep it brief and professional — suitable for a team standup meeting.
-        Commits: ${commits.join("\n")} 
-        Write only the standup update, nothing else.`
-    });
+			model: llmModel,
+			prompt: `You are a helpful assistant that generates daily standup updates from git commit history.
+
+      Generate a standup update in ${lang} based on the git commits below.
+
+      Rules:
+      - Write in first person
+      - Start with exactly one sentence summarizing what you worked on
+      - Then list bullet points using "•" for the details
+      - Group related commits into logical themes
+      - Never mention commit hashes or IDs
+      - Each bullet should be one concise sentence
+      - Maximum 5 bullets regardless of how many commits there are
+      - End with exactly one sentence summarizing the overall focus or progress
+      - No headers, no extra formatting — just intro, bullets, conclusion
+
+      Commits:
+      ${commits.join("\n")}`,
+		});
 
     return text;
 }
