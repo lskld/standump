@@ -4,7 +4,8 @@
 	"description": "Dumps your git history into a standup so you don't have to",
 	"type": "module",
 	"bin": {
-		"standump": "dist/index.js"
+		"standump": "dist/index.js",
+		"standump-mcp": "dist/mcp.ts"
 	},
 	"scripts": {
 		"build": "tsc",
@@ -40,11 +41,15 @@
 		"@ai-sdk/anthropic": "^3.0.81",
 		"@ai-sdk/google": "^3.0.80",
 		"@ai-sdk/openai": "^3.0.67",
+		"@modelcontextprotocol/sdk": "^1.29.0",
 		"ai": "^6.0.196",
 		"clipboardy": "^5.3.1",
 		"commander": "^15.0.0",
 		"conf": "^15.1.0",
 		"ollama-ai-provider-v2": "^3.5.1",
 		"ora": "^9.4.0"
+	},
+	"allowScripts": {
+		"esbuild@0.28.0": true
 	}
 }
