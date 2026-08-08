@@ -1,4 +1,5 @@
 import { execSync, type ExecSyncOptions } from "child_process";
+import { execFileSync } from "child_process";
 
 export function assertGitRepo(): void {
 	try {
@@ -12,15 +13,11 @@ export function assertGitRepo(): void {
 export function getCommits(since: Date, author?: string): string[] {
 	const sinceStr = formatDateForGit(since);
 
-	const authorFlag = author ? `--author="${author}` : "";
-	const command = `git log --oneline --no-merges ${authorFlag} --since="${sinceStr}`;
+	const args = ["log", "--oneline", "--no-merges", `--since=${sinceStr}`];
+	if (author) args.push(`--author=${author}`);
 
 	try {
-		const options: ExecSyncOptions = {
-			encoding: "utf-8",
-			shell: process.platform === "win32" ? "cmd.exe" : "/bin/sh",
-		};
-		const output = execSync(command, options) as string;
+		const output = execFileSync("git", args, { encoding: "utf-8" }) as string;
 
 		if (!output.trim()) return [];
 
